@@ -28,6 +28,11 @@ namespace Kurs1135.Controllers
             return await _context.OrderStatuses.ToListAsync();
         }
 
+        [HttpPost("get")]
+        public async Task<ActionResult<IEnumerable<OrderStatus>>> GetOrderStatusesPost()
+        {
+            return await _context.OrderStatuses.ToListAsync();
+        }
         // GET: api/OrderStatus/5
         [HttpGet("{id}")]
         public async Task<ActionResult<OrderStatus>> GetOrderStatus(int id)

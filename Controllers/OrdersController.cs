@@ -84,6 +84,15 @@ namespace Kurs1135.Controllers
             return CreatedAtAction("GetOrder", new { id = order.Id }, order);
         }
 
+
+        [HttpPost("SaveOrder")]
+        public async Task<ActionResult<Order>> OrderPost(Order order)
+        {
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+        }
         // DELETE: api/Orders/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
