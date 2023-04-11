@@ -75,12 +75,11 @@ namespace Kurs1135.Controllers
         }
 
         [HttpPost("Auth")]
-        public async Task<User> AuthUser(User user)
+        public async Task<ActionResult<User>> AuthUser([FromBody] User user)
         {
-            
-            var login = await _context.Users.Include(s => s.Login).FirstOrDefaultAsync(s => s.Login == user.Login && s.Password == user.Password);
+            var users = await _context.Users.FirstOrDefaultAsync(s => s.Login == user.Login && s.Password == user.Password);
 
-            return login ?? new User();
+            return users ?? new User();
         }
 
         // POST: api/Users

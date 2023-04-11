@@ -17,8 +17,4 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\kurs11135\kurs11135.csproj" />
-  </ItemGroup>
-
 </Project>
