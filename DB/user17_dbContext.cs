@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using Kurs1135.Models;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Kurs1135.DB
 {
-    public partial class user_17_dbContext : DbContext
+    public partial class user17_dbContext : DbContext
     {
-        public user_17_dbContext()
+        public user17_dbContext()
         {
         }
 
-        public user_17_dbContext(DbContextOptions<user_17_dbContext> options)
+        public user17_dbContext(DbContextOptions<user17_dbContext> options)
             : base(options)
         {
         }
@@ -32,12 +31,14 @@ namespace Kurs1135.DB
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("server=192.168.200.35;database=user17_db;user=user17;password=24976;");
+                optionsBuilder.UseSqlServer("server=192.168.200.35;database=user17_db;user=user17;password=24976");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.UseCollation("Cyrillic_General_100_CI_AI_SC_UTF8");
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.ToTable("Order");
@@ -95,19 +96,16 @@ namespace Kurs1135.DB
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderProduct_ProductCategory");
 
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderProduct_Order");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderProducts)
                     .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_OrderProduct_Product");
             });
 
@@ -145,13 +143,11 @@ namespace Kurs1135.DB
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_ProductCategory");
 
                 entity.HasOne(d => d.Image)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.ImageId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Product_ProductImage");
             });
 
@@ -204,7 +200,6 @@ namespace Kurs1135.DB
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.StatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_User_UserPosition");
             });
 

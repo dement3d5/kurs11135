@@ -11,7 +11,7 @@ namespace Kurs1135.Models
         }
 
         public int Id { get; set; }
-        public string Title { get; set; } = null!;
+        public string? Title { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
     }

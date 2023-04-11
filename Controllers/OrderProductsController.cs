@@ -14,9 +14,9 @@ namespace Kurs1135.Controllers
     [ApiController]
     public class OrderProductsController : ControllerBase
     {
-        private readonly user_17_dbContext _context;
+        private readonly user17_dbContext _context;
 
-        public OrderProductsController(user_17_dbContext context)
+        public OrderProductsController(user17_dbContext context)
         {
             _context = context;
         }

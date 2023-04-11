@@ -14,9 +14,9 @@ namespace Kurs1135.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly user_17_dbContext _context;
+        private readonly user17_dbContext _context;
 
-        public ProductsController(user_17_dbContext context)
+        public ProductsController(user17_dbContext context)
         {
             _context = context;
         }

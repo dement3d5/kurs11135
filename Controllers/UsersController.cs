@@ -8,15 +8,16 @@ using Microsoft.EntityFrameworkCore;
 using Kurs1135.DB;
 using Kurs1135.Models;
 
+
 namespace Kurs1135.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly user_17_dbContext _context;
+        private readonly user17_dbContext _context;
 
-        public UsersController(user_17_dbContext context)
+        public UsersController(user17_dbContext context)
         {
             _context = context;
         }
@@ -73,15 +74,36 @@ namespace Kurs1135.Controllers
             return NoContent();
         }
 
+        [HttpPost("Auth")]
+        public async Task<User> AuthUser(User user)
+        {
+            
+            var login = await _context.Users.Include(s => s.Login).FirstOrDefaultAsync(s => s.Login == user.Login && s.Password == user.Password);
+
+            return login ?? new User();
+        }
+
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("get")]
         public async Task<ActionResult<User>> PostUser(User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
+        }
+        [HttpPost("SaveUser")]
+        public async Task<ActionResult<User>> PostUsers([FromBody] User user)
+        {
+            if (_context.Users == null)
+            {
+                return Problem("");
+            }
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return user;
         }
 
         // DELETE: api/Users/5
