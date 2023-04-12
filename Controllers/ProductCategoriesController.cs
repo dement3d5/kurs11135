@@ -22,7 +22,7 @@ namespace Kurs1135.Controllers
         }
 
         // GET: api/ProductCategories
-        [HttpGet]
+        [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<ProductCategory>>> GetProductCategories()
         {
             return await _context.ProductCategories.ToListAsync();

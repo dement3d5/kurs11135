@@ -22,7 +22,7 @@ namespace Kurs1135.Controllers
         }
 
         // GET: api/Products
-        [HttpGet]
+        [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
@@ -75,7 +75,7 @@ namespace Kurs1135.Controllers
 
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("SaveProduct")]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Products.Add(product);
