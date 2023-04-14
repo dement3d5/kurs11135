@@ -75,7 +75,7 @@ namespace Kurs1135.Controllers
 
         // POST: api/ProductImages
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("get")]
         public async Task<ActionResult<ProductImage>> PostProductImage(ProductImage productImage)
         {
             _context.ProductImages.Add(productImage);

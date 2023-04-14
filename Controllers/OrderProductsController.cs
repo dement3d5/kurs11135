@@ -75,7 +75,7 @@ namespace Kurs1135.Controllers
 
         // POST: api/OrderProducts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("get")]
         public async Task<ActionResult<OrderProduct>> PostOrderProduct(OrderProduct orderProduct)
         {
             _context.OrderProducts.Add(orderProduct);

@@ -78,10 +78,18 @@ namespace Kurs1135.Controllers
         [HttpPost("SaveProduct")]
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
+            if(_context.Products ==null)
+            {
+                return NotFound();
+            }
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            if(product == null)
+            {
+                return NoContent(); 
+            }    
+            return product;
+           //return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         // DELETE: api/Products/5
