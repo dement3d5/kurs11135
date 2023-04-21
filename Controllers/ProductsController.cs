@@ -15,6 +15,7 @@ namespace Kurs1135.Controllers
     public class ProductsController : ControllerBase
     {
         private readonly user17_dbContext _context;
+        private int id4put;
 
         public ProductsController(user17_dbContext context)
         {
@@ -25,7 +26,7 @@ namespace Kurs1135.Controllers
         [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include("Image").ToListAsync();
         }
 
         // GET: api/Products/5
@@ -44,10 +45,11 @@ namespace Kurs1135.Controllers
 
         // PUT: api/Products/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        [HttpPost("put")]
+        public async Task<IActionResult> PutProduct([FromBody]Product product)
         {
-            if (id != product.Id)
+            id4put = product.Id;
+            if (id4put != product.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +62,7 @@ namespace Kurs1135.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
+                if (!ProductExists(id4put))
                 {
                     return NotFound();
                 }
@@ -76,9 +78,9 @@ namespace Kurs1135.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("SaveProduct")]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<ActionResult<Product>> PostProduct([FromBody] Product product)
         {
-            if(_context.Products ==null)
+            if(_context.Products == null)
             {
                 return NotFound();
             }
@@ -89,12 +91,12 @@ namespace Kurs1135.Controllers
                 return NoContent(); 
             }    
             return product;
-           //return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            //return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
         // DELETE: api/Products/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteProduct([FromBody]int id)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
@@ -105,7 +107,8 @@ namespace Kurs1135.Controllers
             _context.Products.Remove(product);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
+            //return NoContent();
         }
 
         private bool ProductExists(int id)

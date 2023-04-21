@@ -11,11 +11,11 @@ namespace Kurs1135.Models
         }
 
         public int Id { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         public DateTime CreateAt { get; set; }
-        public int UserId { get; set; }
-        public decimal Cost { get; set; }
-        public string Count { get; set; } = null!;
+        public int? UserId { get; set; }
+        public decimal? Cost { get; set; }
+        public string? Count { get; set; } = null!;
         public int? ProductId { get; set; }
 
         public virtual Product? Product { get; set; }

@@ -22,7 +22,7 @@ namespace Kurs1135.Controllers
         }
 
         // GET: api/Orders
-        [HttpGet]
+        [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
             return await _context.Orders.ToListAsync();
@@ -75,27 +75,31 @@ namespace Kurs1135.Controllers
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost()]
-        public async Task<ActionResult<Order>> PostOrder(Order order)
-        {
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
-        }
-
-
         [HttpPost("SaveOrder")]
-        public async Task<ActionResult<Order>> OrderPost(Order order)
+        public async Task<ActionResult<Order>> PostOrder([FromBody] Order order)
         {
+            if (_context.Orders == null)
+            {
+                return NotFound();
+            }
+            /*_context.Entry(order.Status).;
+            _context.Entry(order.User).State = EntityState.Unchanged;
+            _context.Entry(order.Product).State = EntityState.Unchanged;*/
+            order.Status = _context.OrderStatuses.FirstOrDefault(s => s.Id == order.StatusId);
+            order.User = _context.Users.FirstOrDefault(s => s.Id == order.UserId);
+            order.Product = _context.Products.FirstOrDefault(s => s.Id == order.ProductId);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+            if (order == null)
+            {
+                return NoContent();
+            }
+            return order;
+            
         }
         // DELETE: api/Orders/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(int id)
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteOrder([FromBody] int id)
         {
             var order = await _context.Orders.FindAsync(id);
             if (order == null)

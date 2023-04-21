@@ -21,9 +21,8 @@ namespace Kurs1135.Controllers
         {
             _context = context;
         }
-
         // GET: api/Users
-        [HttpGet]
+        [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
@@ -84,8 +83,8 @@ namespace Kurs1135.Controllers
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("get")]
-        public async Task<ActionResult<User>> PostUser(User user)
+        [HttpPost]
+        public async Task<ActionResult<User>> PostUser([FromBody]User user)
         {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

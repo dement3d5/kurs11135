@@ -22,7 +22,7 @@ namespace Kurs1135.Controllers
         }
 
         // GET: api/ProductImages
-        [HttpGet]
+        [HttpPost]
         public async Task<ActionResult<IEnumerable<ProductImage>>> GetProductImages()
         {
             return await _context.ProductImages.ToListAsync();
