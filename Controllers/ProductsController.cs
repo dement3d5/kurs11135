@@ -53,7 +53,7 @@ namespace Kurs1135.Controllers
             {
                 return BadRequest();
             }
-
+            
             _context.Entry(product).State = EntityState.Modified;
 
             try
