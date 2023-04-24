@@ -44,10 +44,11 @@ namespace Kurs1135.Controllers
 
         // PUT: api/ProductImages/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutProductImage(int id, ProductImage productImage)
+        [HttpPost("put")]
+        public async Task<IActionResult> PutProductImage([FromBody]ProductImage productImage)
         {
-            if (id != productImage.Id)
+            var id4put = productImage.Id;
+            if (id4put != productImage.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +61,7 @@ namespace Kurs1135.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductImageExists(id))
+                if (!ProductImageExists(id4put))
                 {
                     return NotFound();
                 }
