@@ -15,6 +15,7 @@ namespace Kurs1135.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly user17_dbContext _context;
+        private int id4put;
 
         public OrdersController(user17_dbContext context)
         {
@@ -25,7 +26,10 @@ namespace Kurs1135.Controllers
         [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Orders.ToListAsync();
+            return await _context.Orders.Include(s => s.Status)
+                .Include(s => s.Product)
+                .Include(s => s.User).ToListAsync();
+          
         }
 
         // GET: api/Orders/5
@@ -44,10 +48,11 @@ namespace Kurs1135.Controllers
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutOrder(int id, Order order)
+        [HttpPost("put")]
+        public async Task<IActionResult> PutOrder([FromBody] Order order)
         {
-            if (id != order.Id)
+            id4put = order.Id;
+            if (id4put != order.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +65,7 @@ namespace Kurs1135.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(id))
+                if (!OrderExists(id4put))
                 {
                     return NotFound();
                 }

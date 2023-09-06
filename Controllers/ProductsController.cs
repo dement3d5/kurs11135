@@ -26,7 +26,8 @@ namespace Kurs1135.Controllers
         [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
-            return await _context.Products.Include("Image").ToListAsync();
+            return await _context.Products.Include("Image")
+                .Include(s => s.Category).ToListAsync();
         }
 
         // GET: api/Products/5
