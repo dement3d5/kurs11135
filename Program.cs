@@ -1,11 +1,12 @@
-﻿using Kurs1135.DB;
+﻿using Kurs1135;
+using Kurs1135.DB;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddScoped<user17_dbContext>();
+builder.Services.AddScoped<user1Context>();
 builder.Services.AddControllers().AddJsonOptions(j=>j.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

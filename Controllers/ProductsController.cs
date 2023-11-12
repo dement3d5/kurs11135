@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Kurs1135.DB;
 using Kurs1135.Models;
+using Kurs1135.DB;
 
 namespace Kurs1135.Controllers
 {
@@ -14,10 +14,10 @@ namespace Kurs1135.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly user17_dbContext _context;
+        private readonly user1Context _context;
         private int id4put;
 
-        public ProductsController(user17_dbContext context)
+        public ProductsController(user1Context context)
         {
             _context = context;
         }
@@ -27,7 +27,9 @@ namespace Kurs1135.Controllers
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
         {
             return await _context.Products.Include("Image")
-                .Include(s => s.Category).ToListAsync();
+            .Include(s => s.Category).ToListAsync();
+              
+
         }
 
         // GET: api/Products/5

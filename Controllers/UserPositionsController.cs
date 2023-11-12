@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Kurs1135.DB;
+
 using Kurs1135.Models;
+using Kurs1135.DB;
 
 namespace Kurs1135.Controllers
 {
@@ -14,9 +15,9 @@ namespace Kurs1135.Controllers
     [ApiController]
     public class UserPositionsController : ControllerBase
     {
-        private readonly user17_dbContext _context;
+        private readonly user1Context _context;
 
-        public UserPositionsController(user17_dbContext context)
+        public UserPositionsController(user1Context context)
         {
             _context = context;
         }
