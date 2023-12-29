@@ -25,5 +25,6 @@ namespace Kurs1135.Models
         public virtual ProductImage? Image { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
+        //для гита чтобы отправить надо потом удалить!
     }
 }
