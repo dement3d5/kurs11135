@@ -22,5 +22,6 @@ namespace Kurs1135.Models
         public virtual OrderStatus? Status { get; set; }
         public virtual User? User { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
+
     }
 }

@@ -28,8 +28,11 @@ namespace Kurs1135.Controllers
         {
             return await _context.Orders.Include(s => s.Status)
                 .Include(s => s.Product)
-                .Include(s => s.User).ToListAsync();
-          
+                .Include(s => s.User)
+                 .Include(o => o.OrderProducts)
+            .ThenInclude(op => op.Product).ToListAsync();
+
+
         }
 
         // GET: api/Orders/5
@@ -85,8 +88,13 @@ namespace Kurs1135.Controllers
         {
             if (_context.Orders == null)
             {
-                return NotFound();
+                return Problem("Entity set 'user1Context.Orders'  is null.");
             }
+            foreach (var orderProduct in order.OrderProducts)
+            {
+                _context.Entry(orderProduct).State = EntityState.Added;
+            }
+            
             /*_context.Entry(order.Status).;
             _context.Entry(order.User).State = EntityState.Unchanged;
             _context.Entry(order.Product).State = EntityState.Unchanged;*/
@@ -99,8 +107,8 @@ namespace Kurs1135.Controllers
             {
                 return NoContent();
             }
-            return order;
-            
+            return CreatedAtAction("GetOrder", new { id = order.Id }, order);
+
         }
         // DELETE: api/Orders/5
         [HttpPost("delete")]
