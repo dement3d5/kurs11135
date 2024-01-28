@@ -35,6 +35,18 @@ namespace Kurs1135.Controllers
 
         }
 
+        [HttpPost("getByUserId")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrderss()
+        {
+            return await _context.Orders.Include(s => s.Status)
+                .Include(s => s.Product)
+                .Include(s => s.User)
+                 .Include(o => o.OrderProducts)
+            .ThenInclude(op => op.Product).ToListAsync();
+
+
+        }
+
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
