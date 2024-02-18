@@ -35,26 +35,6 @@ namespace Kurs1135.Controllers
 
         }
 
-
-        [HttpPost("getByUserId")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByUserId([FromBody] Order order)
-        {
-
-            var orders = await _context.Orders
-                                       .Include(s => s.Status)
-                                       .Where(o => o.UserId == order.UserId)
-                                       .Include(o => o.OrderProducts)
-                                       .ThenInclude(op => op.Product)
-                                       .ToListAsync();
-
-            if (orders == null)
-            {
-                return NotFound();
-            }
-
-            return orders;
-        }
-
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
@@ -114,7 +94,7 @@ namespace Kurs1135.Controllers
             {
                 _context.Entry(orderProduct).State = EntityState.Added;
             }
-            
+
             /*_context.Entry(order.Status).;
             _context.Entry(order.User).State = EntityState.Unchanged;
             _context.Entry(order.Product).State = EntityState.Unchanged;*/
