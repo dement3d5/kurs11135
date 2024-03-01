@@ -17,6 +17,9 @@ namespace Kurs1135.DB
         {
         }
 
+
+
+
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderProduct> OrderProducts { get; set; } = null!;
         public virtual DbSet<OrderStatus> OrderStatuses { get; set; } = null!;
@@ -25,6 +28,9 @@ namespace Kurs1135.DB
         public virtual DbSet<ProductImage> ProductImages { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<UserPosition> UserPositions { get; set; } = null!;
+
+
+      
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -45,14 +51,7 @@ namespace Kurs1135.DB
 
                 entity.Property(e => e.Cost).HasColumnType("money");
 
-                entity.Property(e => e.Count).HasMaxLength(50);
-
                 entity.Property(e => e.CreateAt).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_Order_Product");
 
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Orders)

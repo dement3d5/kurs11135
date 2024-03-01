@@ -1,5 +1,4 @@
-﻿using Kurs1135;
-using Kurs1135.DB;
+﻿using Kurs1135.DB;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);

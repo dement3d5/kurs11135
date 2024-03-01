@@ -26,11 +26,12 @@ namespace Kurs1135.Controllers
         [HttpPost("get")]
         public async Task<ActionResult<IEnumerable<Order>>> GetOrders()
         {
-            return await _context.Orders.Include(s => s.Status)
-                .Include(s => s.Product)
-                .Include(s => s.User)
-                 .Include(o => o.OrderProducts)
-            .ThenInclude(op => op.Product).ToListAsync();
+            return await _context.Orders.AsNoTracking()
+            .Include(s => s.Status)
+            .Include(s => s.User)
+            .Include(o => o.OrderProducts)
+            .ThenInclude(op => op.Product)
+            .ToListAsync();
 
 
         }
@@ -100,7 +101,7 @@ namespace Kurs1135.Controllers
             _context.Entry(order.Product).State = EntityState.Unchanged;*/
             order.Status = _context.OrderStatuses.FirstOrDefault(s => s.Id == order.StatusId);
             order.User = _context.Users.FirstOrDefault(s => s.Id == order.UserId);
-            order.Product = _context.Products.FirstOrDefault(s => s.Id == order.ProductId);
+            //order.Product = _context.Products.FirstOrDefault(s => s.Id == order.ProductId);
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
             if (order == null)

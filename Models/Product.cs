@@ -8,7 +8,6 @@ namespace Kurs1135.Models
         public Product()
         {
             OrderProducts = new HashSet<OrderProduct>();
-            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -24,7 +23,5 @@ namespace Kurs1135.Models
         public virtual ProductCategory? Category { get; set; }
         public virtual ProductImage? Image { get; set; }
         public virtual ICollection<OrderProduct> OrderProducts { get; set; }
-        public virtual ICollection<Order> Orders { get; set; }
-        //для гита чтобы отправить надо потом удалить!
     }
 }
