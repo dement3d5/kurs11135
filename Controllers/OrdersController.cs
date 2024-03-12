@@ -50,6 +50,24 @@ namespace Kurs1135.Controllers
             return order;
         }
 
+        // GET: api/Orders/get/{date}
+        [HttpGet("get/{date}")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByDate(string date)
+        {
+            DateTime parsedDate;
+            if (!DateTime.TryParse(date, out parsedDate))
+            {
+                return BadRequest("Invalid date format");
+            }
+
+            var orders = await _context.Orders
+                .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Date == parsedDate.Date)
+                .ToListAsync();
+
+            return orders;
+        }
+
+
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("put")]
