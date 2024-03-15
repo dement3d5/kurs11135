@@ -104,6 +104,20 @@ namespace Kurs1135.Controllers
             return user;
         }
 
+        [HttpPost("CheckExistingUser")]
+        public async Task<ActionResult<bool>> CheckExistingUser([FromBody] string login)
+        {
+            var existingUser = await _context.Users.AnyAsync(u => u.Login == login);
+            return existingUser;
+        }
+
+        [HttpPost("CheckExistingPhone")]
+        public async Task<ActionResult<bool>> CheckExistingPhone([FromBody] string phone)
+        {
+            var existingPhone = await _context.Users.AnyAsync(u => u.Organization == phone);
+            return existingPhone;
+        }
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
