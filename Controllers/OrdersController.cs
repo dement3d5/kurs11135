@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Kurs1135.DB;
 using Kurs1135.Models;
+using System.Globalization;
 
 namespace Kurs1135.Controllers
 {
@@ -36,6 +37,30 @@ namespace Kurs1135.Controllers
 
         }
 
+
+        [HttpPost("getByDate")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByDate([FromBody] string filterDate)
+        {
+            try
+            {
+                DateTime date = DateTime.ParseExact(filterDate, "yyyy-MM-dd", CultureInfo.InvariantCulture);
+
+                return await _context.Orders.AsNoTracking()
+                    .Include(s => s.Status)
+                    .Include(s => s.User)
+                    .Include(o => o.OrderProducts)
+                    .ThenInclude(op => op.Product)
+                    .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Date == date.Date)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Ошибка при получении заказов по дате: {ex.Message}");
+            }
+        }
+
+
+
         // GET: api/Orders/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Order>> GetOrder(int id)
@@ -51,26 +76,15 @@ namespace Kurs1135.Controllers
         }
 
         // GET: api/Orders/get/{date}
-        [HttpGet("get/{date}")]
-        public async Task<ActionResult<IEnumerable<Order>>> GetOrdersByDate(string date)
-        {
-            DateTime parsedDate;
-            if (!DateTime.TryParse(date, out parsedDate))
-            {
-                return BadRequest("Invalid date format");
-            }
 
-            var orders = await _context.Orders
-                .Where(o => o.CreateAt.HasValue && o.CreateAt.Value.Date == parsedDate.Date)
-                .ToListAsync();
+      
 
-            return orders;
-        }
+
 
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("put")]
+        [HttpPut("put")]
         public async Task<IActionResult> PutOrder([FromBody] Order order)
         {
             id4put = order.Id;

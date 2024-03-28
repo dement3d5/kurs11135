@@ -16,6 +16,7 @@ namespace Kurs1135.Controllers
     public class UsersController : ControllerBase
     {
         private readonly user1Context _context;
+        private int id4put;
 
         public UsersController(user1Context context)
         {
@@ -44,10 +45,11 @@ namespace Kurs1135.Controllers
 
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        [HttpPost("put")]
+        public async Task<IActionResult> PutPUser([FromBody] User user)
         {
-            if (id != user.Id)
+            id4put = user.Id;
+            if (id4put != user.Id)
             {
                 return BadRequest();
             }
@@ -60,7 +62,7 @@ namespace Kurs1135.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!UserExists(id4put))
                 {
                     return NotFound();
                 }
