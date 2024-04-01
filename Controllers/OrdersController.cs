@@ -77,22 +77,23 @@ namespace Kurs1135.Controllers
 
         // GET: api/Orders/get/{date}
 
-      
+
 
 
 
 
         // PUT: api/Orders/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("put")]
-        public async Task<IActionResult> PutOrder([FromBody] Order order)
+        [HttpPut("updateStatus/{id}")]
+        public async Task<IActionResult> UpdateOrderStatus(int id, [FromBody] int newStatusId)
         {
-            id4put = order.Id;
-            if (id4put != order.Id)
+            var order = await _context.Orders.FindAsync(id);
+            if (order == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
+            order.StatusId = newStatusId;
             _context.Entry(order).State = EntityState.Modified;
 
             try
@@ -101,7 +102,7 @@ namespace Kurs1135.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!OrderExists(id4put))
+                if (!OrderExists(id))
                 {
                     return NotFound();
                 }
@@ -113,6 +114,7 @@ namespace Kurs1135.Controllers
 
             return NoContent();
         }
+
 
         // POST: api/Orders
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
