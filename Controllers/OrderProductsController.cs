@@ -101,6 +101,23 @@ namespace Kurs1135.Controllers
             return NoContent();
         }
 
+        [HttpPost("delete")]
+        public async Task<IActionResult> DeleteOrder([FromBody] int id)
+        {
+            var orderproduct = await _context.OrderProducts.FindAsync(id);
+            if (orderproduct == null)
+            {
+                return NotFound();
+            }
+
+            _context.OrderProducts.Remove(orderproduct);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+
+
         private bool OrderProductExists(int id)
         {
             return _context.OrderProducts.Any(e => e.Id == id);

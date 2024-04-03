@@ -135,17 +135,26 @@ namespace Kurs1135.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> DeleteProduct([FromBody]int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var orderProducts = await _context.OrderProducts.Where(op => op.ProductId == id).ToListAsync();
+                _context.OrderProducts.RemoveRange(orderProducts);
+                await _context.SaveChangesAsync();
+
+                var productToRemove = await _context.Products.FindAsync(id);
+                if (productToRemove != null)
+                {
+                    _context.Products.Remove(productToRemove);
+                    await _context.SaveChangesAsync();
+                }
+
+                return Ok(new { message = "Товар успешно удален" });
             }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return Ok();
-            //return NoContent();
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return StatusCode(500, new { message = "Произошла ошибка при удалении товара" });
+            }
         }
 
         private bool ProductExists(int id)
