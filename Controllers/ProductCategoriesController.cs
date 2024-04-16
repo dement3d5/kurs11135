@@ -29,6 +29,23 @@ namespace Kurs1135.Controllers
             return await _context.ProductCategories.ToListAsync();
         }
 
+        [HttpPost("SaveCategory")]
+        public async Task<ActionResult<ProductCategory>> PostProductCategory([FromBody] ProductCategory productcategory)
+        {
+            if (_context.ProductCategories == null)
+            {
+                return NotFound();
+            }
+            _context.ProductCategories.Add(productcategory);
+            await _context.SaveChangesAsync();
+            if (productcategory == null)
+            {
+                return NoContent();
+            }
+            return productcategory;
+        }
+
+
         // GET: api/ProductCategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductCategory>> GetProductCategory(int id)
@@ -77,7 +94,7 @@ namespace Kurs1135.Controllers
         // POST: api/ProductCategories
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ProductCategory>> PostProductCategory(ProductCategory productCategory)
+        public async Task<ActionResult<ProductCategory>> PostProductCategory1(ProductCategory productCategory)
         {
             _context.ProductCategories.Add(productCategory);
             await _context.SaveChangesAsync();
